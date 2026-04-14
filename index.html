@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini Enterprise — Shivaami</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a2540;--navy2:#0d3060;--navy3:#061828;
+  --orange:#f26522;--orange2:#ff8040;
+  --gb:#4285f4;--gr:#ea4335;--gy:#fbbc04;--gg:#34a853;
+  --bg:#f5f7fa;--surface:#fff;--surface2:#f0f2f7;
+  --border:#e2e6ef;--border2:#c8d0e0;
+  --text:#1a1f2e;--muted:#5f6b7a;--light:#9aa3ae;
+  --r:12px;--rl:20px;--rxl:28px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:62px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;
+  background:rgba(255,255,255,0.94);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 2px 16px rgba(10,37,64,0.06);
+}
+.n-logo{display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer}
+.n-logo-mark{
+  width:34px;height:34px;border-radius:9px;background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:800;color:var(--orange);font-family:'DM Sans',sans-serif;
+}
+.n-logo-name{font-size:15px;font-weight:700;color:var(--navy)}
+.n-sep{width:1px;height:22px;background:var(--border);margin:0 16px}
+.n-product{font-size:13px;color:var(--muted);font-weight:500}
+.n-tabs{display:flex;gap:2px}
+.n-tab{
+  padding:6px 16px;border-radius:99px;font-size:13.5px;font-weight:500;
+  color:var(--muted);border:none;background:none;cursor:pointer;transition:.18s;
+}
+.n-tab:hover{color:var(--navy);background:var(--surface2)}
+.n-tab.on{background:var(--navy);color:#fff}
+.n-cta{
+  padding:8px 22px;border-radius:99px;background:var(--orange);color:#fff;
+  font-size:13.5px;font-weight:700;border:none;cursor:pointer;transition:.2s;
+}
+.n-cta:hover{background:var(--orange2);box-shadow:0 4px 16px rgba(242,101,34,.35);transform:translateY(-1px)}
+
+/* PAGES */
+.pg{display:none;min-height:100vh;padding-top:62px}
+.pg.on{display:block}
+.chat-pg{display:none;height:100vh;padding-top:62px;flex-direction:column}
+.chat-pg.on{display:flex}
+
+/* ══ PAGE 1 — HERO ══ */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,#0e3870 55%,#1a4d99 100%);
+  padding:72px 40px 80px;position:relative;overflow:hidden;
+}
+.hero-mesh{
+  position:absolute;inset:0;opacity:.035;
+  background-image:linear-gradient(rgba(255,255,255,.8) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.8) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+.hero-glow{
+  position:absolute;right:-100px;top:-100px;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(66,133,244,.18) 0%,transparent 70%);
+}
+.hero-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(66,133,244,.16);border:1px solid rgba(66,133,244,.3);
+  color:#8ab4f8;padding:5px 14px;border-radius:99px;
+  font-size:11.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  margin-bottom:22px;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#34a853;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+.hero h1{
+  font-family:'DM Sans',sans-serif;font-size:54px;font-weight:700;
+  line-height:1.08;color:#fff;margin-bottom:18px;max-width:640px;
+}
+.hero h1 em{font-style:normal;color:#8ab4f8}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.62);line-height:1.7;max-width:520px;margin-bottom:36px}
+
+/* Pillar cards */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:48px}
+.pcard{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r);padding:20px;transition:.22s;cursor:default;
+}
+.pcard:hover{background:rgba(255,255,255,.14);transform:translateY(-3px)}
+.pcard-icon{font-size:26px;margin-bottom:12px}
+.pcard h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:5px}
+.pcard p{font-size:12.5px;color:rgba(255,255,255,.48);line-height:1.55}
+
+/* Pricing card + seat selector */
+.pricing-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:800px}
+.price-card{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--rl);padding:28px;
+}
+.price-tag{display:flex;align-items:baseline;gap:6px;margin-bottom:4px}
+.price-tag .amt{font-size:44px;font-weight:700;color:#fff}
+.price-tag .unit{font-size:15px;color:rgba(255,255,255,.5)}
+.price-note{font-size:12.5px;color:rgba(255,255,255,.4);margin-bottom:22px}
+.price-features{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.pf{display:flex;align-items:center;gap:8px;font-size:13.5px;color:rgba(255,255,255,.75)}
+.pf-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.btn-hero{
+  width:100%;padding:13px;border-radius:12px;
+  background:var(--orange);color:#fff;font-size:15px;font-weight:700;
+  border:none;cursor:pointer;transition:.2s;
+}
+.btn-hero:hover{background:var(--orange2);box-shadow:0 6px 20px rgba(242,101,34,.4)}
+
+/* SEAT SELECTOR CARD */
+.seat-card{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--rl);padding:28px;display:flex;flex-direction:column;
+}
+.seat-card h3{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px}
+.seat-card .sub{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:24px}
+.slider-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.slider-head span{font-size:13px;color:rgba(255,255,255,.65);font-weight:500}
+.seat-num{
+  font-size:32px;font-weight:700;color:#fff;
+  background:rgba(255,255,255,.1);padding:3px 14px;border-radius:10px;
+  min-width:80px;text-align:center;
+}
+input[type=range]{
+  width:100%;-webkit-appearance:none;height:5px;
+  background:linear-gradient(to right,var(--orange) 0%,var(--orange) var(--p,12%),rgba(255,255,255,.2) var(--p,12%),rgba(255,255,255,.2) 100%);
+  border-radius:99px;outline:none;cursor:pointer;margin-bottom:6px;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--orange);border:3px solid #fff;
+  box-shadow:0 2px 8px rgba(242,101,34,.5);cursor:pointer;
+}
+.slider-marks{display:flex;justify-content:space-between}
+.slider-marks span{font-size:11px;color:rgba(255,255,255,.3)}
+.est-price{
+  margin-top:auto;padding-top:20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.est-label{font-size:12.5px;color:rgba(255,255,255,.5)}
+.est-val{font-size:20px;font-weight:700;color:var(--orange2)}
+.btn-quote{
+  width:100%;padding:13px;border-radius:12px;margin-top:14px;
+  background:#fff;color:var(--navy);font-size:15px;font-weight:700;
+  border:none;cursor:pointer;transition:.2s;
+}
+.btn-quote:hover{background:#f0f4ff;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+
+/* TRUST */
+.trust{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:14px 40px;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;
+}
+.ti{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);font-weight:500}
+.ti-dot{width:8px;height:8px;border-radius:50%;background:var(--gg)}
+
+/* FEATURES */
+.section{max-width:1160px;margin:60px auto;padding:0 40px}
+.s-label{font-size:11.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.s-title{font-size:34px;font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:8px}
+.s-sub{font-size:16px;color:var(--muted);margin-bottom:36px;max-width:520px}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.fc{
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--rl);
+  padding:26px;transition:.22s;
+}
+.fc:hover{border-color:var(--gb);box-shadow:0 8px 28px rgba(66,133,244,.09);transform:translateY(-3px)}
+.fc-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:14px}
+.fc h3{font-size:15.5px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.fc p{font-size:13.5px;color:var(--muted);line-height:1.65}
+
+/* ══ PAGE 2 — MARKETPLACE ══ */
+.mp-hero{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:44px 40px 0;
+}
+.mp-hero-inner{max-width:1160px;margin:0 auto}
+.mp-hero h2{font-size:32px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.mp-hero p{font-size:15px;color:var(--muted);margin-bottom:26px;max-width:580px}
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--border)}
+.tb{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 22px;border:none;background:none;cursor:pointer;
+  font-size:14px;font-weight:600;color:var(--muted);
+  border-bottom:2px solid transparent;margin-bottom:-2px;transition:.18s;
+  font-family:inherit;
+}
+.tb:hover{color:var(--navy)}
+.tb.on{color:var(--navy);border-bottom-color:var(--orange)}
+.tc{background:var(--surface2);color:var(--muted);font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px}
+.tb.on .tc{background:var(--orange);color:#fff}
+
+.mp-body{max-width:1160px;margin:0 auto;padding:36px 40px}
+.tp{display:none}.tp.on{display:block}
+
+.filter-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;gap:12px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{
+  padding:6px 14px;border-radius:99px;font-size:12.5px;font-weight:600;
+  border:1.5px solid var(--border);background:#fff;color:var(--muted);
+  cursor:pointer;transition:.16s;
+}
+.chip:hover,.chip.on{border-color:var(--navy);background:var(--navy);color:#fff}
+
+/* ADD-ON CARDS */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ac{
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--rl);
+  padding:22px;display:flex;flex-direction:column;gap:0;
+  transition:.22s;position:relative;overflow:hidden;
+}
+.ac::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--orange),var(--gb));
+  transform:scaleX(0);transform-origin:left;transition:.28s;
+}
+.ac:hover{border-color:var(--border2);box-shadow:0 8px 28px rgba(10,37,64,.09);transform:translateY(-3px)}
+.ac:hover::after{transform:scaleX(1)}
+.ac-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:13px}
+.ac-logo{
+  width:42px;height:42px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;border:1px solid var(--border);
+}
+.ac-name{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.3;margin-bottom:2px}
+.ac-by{font-size:12px;color:var(--light)}
+.ac-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:14px;flex:1}
+.ac-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.tag{font-size:11px;font-weight:600;padding:3px 8px;border-radius:99px;background:var(--surface2);color:var(--muted)}
+.tag.b{background:#e8f0fe;color:#1a73e8}
+.tag.g{background:#e6f4ea;color:#188038}
+.tag.o{background:#fef3e2;color:#c77700}
+.tag.n{background:#e8ecf5;color:var(--navy)}
+.ac-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:14px;border-top:1px solid var(--border);margin-top:auto;
+}
+.ac-price{font-size:14px;font-weight:700;color:var(--navy)}
+.ac-price small{font-size:11.5px;font-weight:400;color:var(--light)}
+.add-btn{
+  padding:7px 16px;border-radius:99px;border:1.5px solid var(--navy);
+  background:transparent;color:var(--navy);font-size:13px;font-weight:700;
+  cursor:pointer;transition:.18s;white-space:nowrap;font-family:inherit;
+}
+.add-btn:hover,.add-btn.on{background:var(--navy);color:#fff}
+.add-btn.on{background:var(--gg);border-color:var(--gg)}
+
+/* CART BAR */
+.cart-bar{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  background:var(--navy);color:#fff;
+  padding:13px 26px;border-radius:99px;
+  display:flex;align-items:center;gap:16px;
+  box-shadow:0 8px 36px rgba(10,37,64,.3);
+  z-index:150;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;
+}
+.cart-bar.on{opacity:1;pointer-events:all}
+.cart-n{
+  background:var(--orange);color:#fff;width:24px;height:24px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;
+}
+.cart-txt{font-size:13.5px}
+.cart-cta{
+  padding:8px 18px;border-radius:99px;background:var(--orange);color:#fff;
+  font-size:13px;font-weight:700;border:none;cursor:pointer;transition:.18s;font-family:inherit;
+}
+.cart-cta:hover{background:var(--orange2)}
+
+/* ══ PAGE 3 — CHAT ══ */
+.chat-head{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:18px 40px;display:flex;align-items:center;gap:14px;
+}
+.g-orb{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(from 0deg,#4285f4,#ea4335,#fbbc04,#34a853,#4285f4);
+  display:flex;align-items:center;justify-content:center;
+  animation:spin 10s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.g-orb-in{
+  width:28px;height:28px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.chat-head-info h3{font-size:16px;font-weight:700;color:var(--navy)}
+.chat-head-info p{font-size:12.5px;color:var(--muted)}
+.chat-live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gg);font-weight:600;margin-left:auto}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--gg);animation:pulse 2s infinite}
+
+.chat-body{flex:1;overflow-y:auto;padding:28px 40px;display:flex;flex-direction:column;gap:16px}
+.msg{display:flex;gap:11px;max-width:700px;animation:fadeup .28s ease}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.me{flex-direction:row-reverse;margin-left:auto}
+.m-av{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
+}
+.msg.ai .m-av{background:linear-gradient(135deg,#4285f4,#34a853);color:#fff}
+.msg.me .m-av{background:var(--navy);color:#fff;font-size:11px}
+.m-bub{
+  padding:12px 18px;border-radius:18px;font-size:14px;line-height:1.7;
+}
+.msg.ai .m-bub{background:#fff;border:1px solid var(--border);color:var(--text);border-top-left-radius:4px}
+.msg.me .m-bub{background:var(--navy);color:#fff;border-top-right-radius:4px}
+.m-bub strong{color:var(--gb)}
+.msg.me .m-bub strong{color:#8ab4f8}
+.m-bub ul{padding-left:18px;margin-top:8px}
+.m-bub li{margin-bottom:5px}
+.typing{display:flex;gap:4px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:18px;border-top-left-radius:4px;width:fit-content}
+.typing span{width:7px;height:7px;border-radius:50%;background:var(--light);animation:blink 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+.suggestions{padding:0 40px 14px;display:flex;gap:7px;flex-wrap:wrap}
+.sg{
+  padding:7px 15px;border-radius:99px;
+  border:1.5px solid var(--border);background:#fff;
+  font-size:13px;color:var(--muted);cursor:pointer;transition:.18s;
+  font-family:inherit;white-space:nowrap;
+}
+.sg:hover{border-color:var(--gb);color:var(--gb);background:#e8f0fe}
+
+.chat-in-area{
+  padding:14px 40px 22px;background:#fff;border-top:1px solid var(--border);
+  display:flex;gap:10px;align-items:flex-end;
+}
+.chat-in{
+  flex:1;padding:11px 18px;border-radius:24px;
+  border:1.5px solid var(--border);font-size:14px;
+  font-family:inherit;resize:none;outline:none;min-height:46px;max-height:120px;
+  background:var(--bg);color:var(--text);line-height:1.55;transition:.18s;
+}
+.chat-in:focus{border-color:var(--gb);background:#fff}
+.send-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--navy);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;color:#fff;transition:.2s;flex-shrink:0;
+}
+.send-btn:hover{background:var(--gb);transform:scale(1.06)}
+.send-btn:disabled{background:var(--border);cursor:not-allowed;transform:none}
+
+/* ══ FORM MODAL ══ */
+.overlay{
+  position:fixed;inset:0;background:rgba(10,37,64,.5);
+  backdrop-filter:blur(8px);z-index:300;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:.22s;
+}
+.overlay.on{opacity:1;pointer-events:all}
+.modal{
+  background:#fff;border-radius:var(--rxl);padding:36px;
+  max-width:500px;width:calc(100% - 32px);
+  transform:translateY(18px);transition:.22s;
+  box-shadow:0 24px 80px rgba(10,37,64,.22);
+  max-height:90vh;overflow-y:auto;
+}
+.overlay.on .modal{transform:translateY(0)}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+.modal-head h3{font-size:20px;font-weight:700;color:var(--navy)}
+.modal-close{font-size:20px;cursor:pointer;color:var(--muted);border:none;background:none;line-height:1;padding:4px}
+.modal-sub{font-size:14px;color:var(--muted);margin-bottom:24px}
+.modal-seats-preview{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface2);border-radius:var(--r);padding:14px 18px;
+  margin-bottom:22px;
+}
+.msp-label{font-size:13px;color:var(--muted)}
+.msp-val{font-size:18px;font-weight:700;color:var(--navy)}
+.msp-price{font-size:13px;color:var(--orange);font-weight:600}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.ff{display:flex;flex-direction:column;gap:4px}
+.ff.full{grid-column:1/-1}
+.ff label{font-size:12.5px;font-weight:600;color:var(--text)}
+.ff input,.ff select,.ff textarea{
+  padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;
+  font-size:14px;font-family:inherit;color:var(--text);background:var(--bg);
+  outline:none;transition:.18s;
+}
+.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--gb);background:#fff}
+.ff textarea{resize:vertical;min-height:68px}
+.submit-btn{
+  width:100%;padding:14px;border-radius:12px;margin-top:6px;
+  background:var(--orange);color:#fff;font-size:15px;font-weight:700;
+  border:none;cursor:pointer;transition:.2s;font-family:inherit;
+}
+.submit-btn:hover{background:var(--orange2);box-shadow:0 6px 20px rgba(242,101,34,.35)}
+.form-note{text-align:center;font-size:12px;color:var(--light);margin-top:8px}
+
+/* SUCCESS */
+.success-view{text-align:center;padding:16px 0}
+.success-view .s-ico{font-size:54px;margin-bottom:14px}
+.success-view h3{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.success-view p{color:var(--muted);font-size:15px}
+
+/* AGENT TYPES SECTION */
+.at-pill{
+  padding:9px 20px;border-radius:99px;border:none;background:transparent;
+  font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;
+  transition:.18s;font-family:inherit;
+}
+.at-pill:hover{color:var(--navy)}
+.at-pill.on{background:#fff;color:var(--navy);box-shadow:0 2px 10px rgba(10,37,64,.1)}
+.at-panel{display:none}.at-panel.on{display:block}
+.at-card{
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--rl);
+  padding:24px;transition:.22s;
+}
+.at-card:hover{border-color:var(--border2);box-shadow:0 6px 22px rgba(10,37,64,.08);transform:translateY(-2px)}
+.at-card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+.at-card h4{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.at-card p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.at-badge{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:99px}
+.at-badge.g{background:#e6f4ea;color:#188038}
+.at-step{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text)}
+.at-step-n{
+  width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;
+}
+.at-partner-card{
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--rl);
+  padding:18px;display:flex;flex-direction:column;align-items:center;
+  gap:6px;text-align:center;transition:.2s;
+}
+.at-partner-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 4px 16px rgba(10,37,64,.07)}
+.at-partner-logo{font-size:28px}
+.at-partner-name{font-size:13px;font-weight:700;color:var(--navy)}
+.at-partner-by{font-size:11.5px;color:var(--light)}
+
+/* RESPONSIVE */
+@media(max-width:920px){
+  .pillars{grid-template-columns:1fr 1fr}
+  .pricing-row{grid-template-columns:1fr}
+  .feat-grid,.cards{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .feat-grid,.cards{grid-template-columns:1fr}
+  .fg{grid-template-columns:1fr}
+  .n-tabs{display:none}
+  nav{padding:0 18px}
+  .hero,.section,.mp-hero,.mp-body{padding-left:18px;padding-right:18px}
+  .chat-body,.chat-in-area,.suggestions,.chat-head{padding-left:18px;padding-right:18px}
+  .hero h1{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div style="display:flex;align-items:center">
+    <div class="n-logo" onclick="goPage('home')">
+      <div class="n-logo-mark">S</div>
+      <span class="n-logo-name">shivaami</span>
+    </div>
+    <div class="n-sep"></div>
+    <span class="n-product">Gemini Enterprise</span>
+  </div>
+  <div class="n-tabs">
+    <button class="n-tab on" onclick="goPage('home',this)">Overview</button>
+    <button class="n-tab" onclick="goPage('market',this)">Add-ons</button>
+    <button class="n-tab" onclick="goPage('chat',this)">Ask Gemini ✦</button>
+  </div>
+  <button class="n-cta" onclick="openModal()">Get a Quote</button>
+</nav>
+
+<!-- ══════════ PAGE 1 — OVERVIEW ══════════ -->
+<div id="pg-home" class="pg on">
+
+  <section class="hero">
+    <div class="hero-mesh"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Now in India · Authorised by Google · Deployed by Shivaami
+      </div>
+
+      <h1>Get started on <em>Agentic AI.</em></h1>
+      <p class="hero-sub">Create, deploy, and govern AI agents on a single, secure platform — powered by Google Gemini Enterprise and onboarded by Shivaami.</p>
+
+      <div class="pillars">
+        <div class="pcard">
+          <div class="pcard-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linecap="round"><path d="M9.5 2a4.5 4.5 0 0 1 4 6.5"/><path d="M12 6a4.5 4.5 0 0 1 4.5 4.5c0 1.1-.4 2.1-1 2.9"/><path d="M8.5 9A4.5 4.5 0 0 0 4 13.5c0 2.5 2 4.5 4.5 4.5"/><path d="M12 13a4 4 0 0 1 4 4v1"/><path d="M9 17.5A3.5 3.5 0 0 1 12 14"/><circle cx="12" cy="20" r="1"/></svg></div>
+          <h4>The Brains</h4>
+          <p>Gemini 3 — Google's most advanced multimodal models</p>
+        </div>
+        <div class="pcard">
+          <div class="pcard-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M17.5 14v6M14 17.5h6"/></svg></div>
+          <h4>The Workbench</h4>
+          <p>No-code agent builder for every team, not just devs</p>
+        </div>
+        <div class="pcard">
+          <div class="pcard-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="3"/><path d="M6 20v-2a6 6 0 0 1 6-6v0a6 6 0 0 1 6 6v2"/><path d="M18 8a3 3 0 0 1 0 6"/><path d="M6 8a3 3 0 0 0 0 6"/></svg></div>
+          <h4>The Taskforce</h4>
+          <p>Pre-built Google agents: Deep Research, NotebookLM, Data Insights</p>
+        </div>
+        <div class="pcard">
+          <div class="pcard-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
+          <h4>The Marketplace</h4>
+          <p>1,000+ validated partner agents across every industry</p>
+        </div>
+      </div>
+
+      <!-- PRICING ROW -->
+      <div class="pricing-row">
+        <!-- Price card -->
+        <div class="price-card">
+          <div class="price-tag">
+            <span class="amt">$8</span>
+            <span class="unit">/ user / month</span>
+          </div>
+          <p class="price-note">Annual contract · INR billing · +18% GST</p>
+          <div class="price-features">
+            <div class="pf"><span class="pf-dot" style="background:#34a853"></span>Gemini 3 models included</div>
+            <div class="pf"><span class="pf-dot" style="background:#4285f4"></span>Works with Microsoft 365</div>
+            <div class="pf"><span class="pf-dot" style="background:#fbbc04"></span>Deep Research + NotebookLM</div>
+            <div class="pf"><span class="pf-dot" style="background:#ea4335"></span>Enterprise security + governance</div>
+            <div class="pf"><span class="pf-dot" style="background:#34a853"></span>Shivaami onboarding included</div>
+          </div>
+          <button class="btn-hero" onclick="goPage('market',document.querySelectorAll('.n-tab')[1])">Explore Add-ons →</button>
+        </div>
+
+        <!-- Seat selector card -->
+        <div class="seat-card">
+          <h3>Estimate your cost</h3>
+          <p class="sub">Drag the slider — price updates live</p>
+          <div class="slider-head">
+            <span>Number of seats</span>
+            <div class="seat-num" id="seat-disp">30</div>
+          </div>
+          <input type="range" id="s-slider" min="5" max="500" value="30" oninput="calcSeats(this)">
+          <div class="slider-marks">
+            <span>5</span><span>100</span><span>250</span><span>500</span>
+          </div>
+          <div class="est-price">
+            <div>
+              <div class="est-label">Monthly estimate (excl. GST)</div>
+              <div class="est-val" id="est-val">$240 / mo</div>
+            </div>
+            <div style="text-align:right">
+              <div class="est-label">Annual</div>
+              <div style="font-size:14px;font-weight:700;color:rgba(255,255,255,.7)" id="est-yr">$2,880</div>
+            </div>
+          </div>
+          <button class="btn-quote" onclick="openModal()">Request this Quote →</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust">
+    <div class="ti"><span class="ti-dot"></span>Google Authorised Reseller</div>
+    <div class="ti"><span class="ti-dot"></span>Data never used for training</div>
+    <div class="ti"><span class="ti-dot"></span>HIPAA &amp; FedRAMP compliant</div>
+    <div class="ti"><span class="ti-dot"></span>Mumbai · Bengaluru · Delhi support</div>
+    <div class="ti"><span class="ti-dot"></span>24-hr quote turnaround</div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section">
+    <p class="s-label">What's included on day one</p>
+    <h2 class="s-title">A complete AI platform, not just a chatbot</h2>
+    <p class="s-sub">Every seat comes with the full Google agent taskforce — no hidden add-ons for core capabilities.</p>
+    <div class="feat-grid">
+      <div class="fc">
+        <div class="fc-icon" style="background:#e8f0fe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg></div>
+        <h3>Deep Research</h3>
+        <p>Plans, searches hundreds of sources, and generates comprehensive cited reports in minutes — not weeks.</p>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:#e6f4ea"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34a853" stroke-width="1.8" stroke-linecap="round"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect x="6" y="3" width="15" height="18" rx="2"/><path d="M10 8h7M10 12h7M10 16h5"/></svg></div>
+        <h3>NotebookLM Enterprise</h3>
+        <p>Upload your own documents. Surface connections, summaries, and insights grounded in your company data.</p>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:#fef3e2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbc04" stroke-width="1.8" stroke-linecap="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 7 7c0 2.6-1.4 4.9-3.5 6.2V17H8.5v-1.8A7 7 0 0 1 5 9a7 7 0 0 1 7-7z"/></svg></div>
+        <h3>Idea Generation</h3>
+        <p>AI-powered tournament brainstorming that generates, debates, and ranks ideas for strategy and product teams.</p>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:#fce8e6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ea4335" stroke-width="1.8" stroke-linecap="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+        <h3>Data Insights Agent</h3>
+        <p>Ask your BigQuery data questions in plain English. No SQL needed. Turns numbers into executive narratives.</p>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:#e8f0fe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="1.8" stroke-linecap="round"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg></div>
+        <h3>Gemini Code Assist</h3>
+        <p>Full-stack coding agent that writes, reviews, and refactors code across your existing IDE and stack.</p>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:#e6f4ea"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34a853" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Centralised Governance</h3>
+        <p>One dashboard to visualise, secure, audit, and govern every agent — yours, Google's, and third-party.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENT TYPES SECTION -->
+  <div class="section" style="margin-bottom:80px">
+    <p class="s-label">Your agent ecosystem</p>
+    <h2 class="s-title">Every seat comes with the full Google agent gallery</h2>
+    <p class="s-sub">Use Google's pre-built agents on day one, build your own with no code, or deploy from 1,000+ partner agents in the marketplace.</p>
+
+    <!-- Pill tabs -->
+    <div style="display:flex;gap:6px;background:#eef0f5;padding:5px;border-radius:99px;width:fit-content;margin-bottom:36px">
+      <button class="at-pill on" onclick="switchAgent('google',this)">🤖 Google-made agents</button>
+      <button class="at-pill" onclick="switchAgent('own',this)">⚙️ Make your own agents</button>
+      <button class="at-pill" onclick="switchAgent('partner',this)">🏪 Partner-made agents</button>
+    </div>
+
+    <!-- Google agents panel -->
+    <div id="at-google" class="at-panel on">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+        <div class="at-card">
+          <div class="at-card-icon" style="background:#e8f0fe">🔍</div>
+          <h4>Deep Research</h4>
+          <p>Plans and executes hundreds of searches across the web and your enterprise data, then delivers comprehensive cited reports.</p>
+          <span class="at-badge g">Included</span>
+        </div>
+        <div class="at-card">
+          <div class="at-card-icon" style="background:#e6f4ea">📓</div>
+          <h4>NotebookLM Enterprise</h4>
+          <p>Upload your company documents and surface hidden connections, audio overviews, and grounded insights instantly.</p>
+          <span class="at-badge g">Included</span>
+        </div>
+        <div class="at-card">
+          <div class="at-card-icon" style="background:#fef3e2">💡</div>
+          <h4>Idea Generation</h4>
+          <p>Tournament-style AI brainstorming that generates, debates, and ranks ideas — built for strategy and product teams.</p>
+          <span class="at-badge g">Included</span>
+        </div>
+        <div class="at-card">
+          <div class="at-card-icon" style="background:#fce8e6">📊</div>
+          <h4>Data Insights</h4>
+          <p>Ask your BigQuery or Sheets data questions in plain English. No SQL, no analyst needed.</p>
+          <span class="at-badge g">Included</span>
+        </div>
+        <div class="at-card">
+          <div class="at-card-icon" style="background:#e8f0fe">💻</div>
+          <h4>Gemini Code Assist</h4>
+          <p>Full-stack coding agent that writes, reviews, tests and refactors code across your entire engineering stack.</p>
+          <span class="at-badge g">Included</span>
+        </div>
+        <div class="at-card">
+          <div class="at-card-icon" style="background:#e6f4ea">🎥</div>
+          <h4>Google Vids Agent</h4>
+          <p>Transforms presentations and documents into polished AI-generated videos with script, voiceover, and visuals.</p>
+          <span class="at-badge g">Included</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Own agents panel -->
+    <div id="at-own" class="at-panel">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center">
+        <div>
+          <h3 style="font-size:24px;font-weight:700;color:var(--navy);margin-bottom:14px;line-height:1.3">Build custom agents — without writing a single line of code</h3>
+          <p style="color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:22px">Gemini Enterprise's no-code Agent Designer lets anyone in your organisation — from marketing to finance — build, test, and deploy AI agents in minutes. Just describe what you want it to do in plain English.</p>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="at-step"><span class="at-step-n">1</span><span>Describe your agent's goal in plain language</span></div>
+            <div class="at-step"><span class="at-step-n">2</span><span>Connect it to your data sources — Drive, SharePoint, CRM, ERP</span></div>
+            <div class="at-step"><span class="at-step-n">3</span><span>Test, refine, and publish to your team's Agent Gallery</span></div>
+          </div>
+          <button class="btn-hero" style="margin-top:24px;width:auto;padding:12px 28px" onclick="goPage('market',document.querySelectorAll('.n-tab')[1])">See Shivaami Gems →</button>
+        </div>
+        <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rl);padding:28px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:16px">Example agent prompt</div>
+          <div style="background:var(--surface2);border-radius:var(--r);padding:18px;font-size:14px;color:var(--text);line-height:1.7;font-style:italic;border-left:3px solid var(--orange)">
+            "Every Monday morning, pull last week's sales data from Salesforce, compare it to our Q2 targets in Sheets, write a 3-paragraph summary for the sales team, and send it to the #sales-updates Workspace channel."
+          </div>
+          <div style="margin-top:18px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)">
+            <span style="background:#e6f4ea;color:#188038;padding:4px 10px;border-radius:99px;font-weight:600;font-size:12px">✓ No code</span>
+            <span style="background:#e8f0fe;color:#1a73e8;padding:4px 10px;border-radius:99px;font-weight:600;font-size:12px">✓ Runs automatically</span>
+            <span style="background:#fef3e2;color:#c77700;padding:4px 10px;border-radius:99px;font-weight:600;font-size:12px">✓ Governed centrally</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Partner agents panel -->
+    <div id="at-partner" class="at-panel">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px">
+        <div class="at-partner-card"><div class="at-partner-logo">⚖️</div><div class="at-partner-name">InsightCounsel</div><div class="at-partner-by">by Deloitte</div></div>
+        <div class="at-partner-card"><div class="at-partner-logo">📦</div><div class="at-partner-name">Box AI Agent</div><div class="at-partner-by">by Box</div></div>
+        <div class="at-partner-card"><div class="at-partner-logo">🔢</div><div class="at-partner-name">Tax Compliance</div><div class="at-partner-by">by Avalara</div></div>
+        <div class="at-partner-card"><div class="at-partner-logo">🔎</div><div class="at-partner-name">Elastic Search</div><div class="at-partner-by">by Elastic</div></div>
+        <div class="at-partner-card"><div class="at-partner-logo">📣</div><div class="at-partner-name">Opal Marketing</div><div class="at-partner-by">by Optimizely</div></div>
+        <div class="at-partner-card"><div class="at-partner-logo">📈</div><div class="at-partner-name">Felix Analytics</div><div class="at-partner-by">by Quantum Metric</div></div>
+        <div class="at-partner-card"><div class="at-partner-logo">🧑‍💼</div><div class="at-partner-name">HR Assistant</div><div class="at-partner-by">by Workday</div></div>
+        <div class="at-partner-card" style="border-style:dashed;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px">
+          <div style="font-size:22px">+</div>
+          <div style="font-size:12px;font-weight:600;color:var(--muted)">1,000+ more</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rl);padding:22px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:5px">All agents are A2A validated and Gemini Enterprise certified</div>
+          <div style="font-size:14px;color:var(--muted)">Every partner agent is verified by Google Cloud before listing — security, governance, and A2A protocol compliance guaranteed.</div>
+        </div>
+        <button class="btn-hero" style="white-space:nowrap;padding:12px 24px;width:auto" onclick="goPage('market',document.querySelectorAll('.n-tab')[1])">Browse All Add-ons →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ PAGE 2 — MARKETPLACE ══════════ -->
+<div id="pg-market" class="pg">
+
+  <div class="mp-hero">
+    <div class="mp-hero-inner">
+      <h2>Add-ons &amp; Extensions</h2>
+      <p>Enhance your Gemini Enterprise with Shivaami-curated agents, custom Gems, and ready-to-use Prompt Packs. Add any to your quote.</p>
+      <div class="tab-bar">
+        <button class="tb on" onclick="switchTab('agents',this)">Pre-built Agents <span class="tc">8</span></button>
+        <button class="tb" onclick="switchTab('gems',this)">Shivaami Gems <span class="tc">7</span></button>
+        <button class="tb" onclick="switchTab('prompts',this)">Prompt Packs <span class="tc">7</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mp-body">
+
+    <!-- TAB: AGENTS -->
+    <div id="tp-agents" class="tp on">
+      <div class="filter-row">
+        <div class="chips">
+          <span class="chip on">All</span>
+          <span class="chip">Productivity</span>
+          <span class="chip">Legal &amp; Finance</span>
+          <span class="chip">Data &amp; Analytics</span>
+          <span class="chip">Marketing</span>
+          <span class="chip">HR</span>
+        </div>
+      </div>
+      <div class="cards">
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e8f0fe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg></div>
+            <div><div class="ac-name">Deep Research Agent</div><div class="ac-by">by Google</div></div>
+          </div>
+          <p class="ac-desc">Performs hundreds of web and enterprise searches, reasons across sources, and delivers comprehensive cited reports. Slash research time from weeks to hours.</p>
+          <div class="ac-tags"><span class="tag b">Included</span><span class="tag g">A2A</span><span class="tag">Productivity</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">Included <small>with Enterprise</small></div>
+            <button class="add-btn on" style="cursor:default">✓ Included</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fef3e2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="1.8" stroke-linecap="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+            <div><div class="ac-name">Box AI Agent</div><div class="ac-by">by Box</div></div>
+          </div>
+          <p class="ac-desc">Securely searches, analyses, and generates insights from your Box content using Gemini Enterprise — grounded in your documents, not the open web.</p>
+          <div class="ac-tags"><span class="tag g">A2A</span><span class="tag b">Preview</span><span class="tag">Document AI</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹420 <small>/ user / yr</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fce8e6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea4335" stroke-width="1.8" stroke-linecap="round"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><path d="M8 6l4-4 4 4"/><path d="M6 12l-3-6 3-6M18 12l3-6-3-6" opacity="0.4"/></svg></div>
+            <div><div class="ac-name">InsightCounsel Legal Agent</div><div class="ac-by">by Deloitte</div></div>
+          </div>
+          <p class="ac-desc">AI-powered legal research and precise legal assistance. Contract review, due diligence, compliance checks — in seconds, not hours.</p>
+          <div class="ac-tags"><span class="tag g">A2A</span><span class="tag o">Legal</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹1,200 <small>/ user / yr</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e6f4ea"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34a853" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h.01M11 15h2"/></svg></div>
+            <div><div class="ac-name">Avalara Tax Compliance</div><div class="ac-by">by Avalara</div></div>
+          </div>
+          <p class="ac-desc">Automates tax compliance with address validation, GST/sales tax calculations, and filing checks — directly inside your Gemini workflow.</p>
+          <div class="ac-tags"><span class="tag g">A2A</span><span class="tag o">Finance</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹960 <small>/ user / yr</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e8f0fe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/></svg></div>
+            <div><div class="ac-name">Elastic AI Search Agent</div><div class="ac-by">by Elastic</div></div>
+          </div>
+          <p class="ac-desc">Advanced semantic search, RAG, and data analysis across all enterprise data stores — find anything, instantly, across your entire organisation.</p>
+          <div class="ac-tags"><span class="tag g">A2A</span><span class="tag b">Search</span><span class="tag">Analytics</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹840 <small>/ user / yr</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fef3e2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="1.8" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <div><div class="ac-name">Optimizely Opal Marketing</div><div class="ac-by">by Optimizely</div></div>
+          </div>
+          <p class="ac-desc">Brand-aware AI that generates, tests, and optimises marketing content — personalised, on-brand, embedded in your Gemini Enterprise workflows.</p>
+          <div class="ac-tags"><span class="tag g">A2A</span><span class="tag o">Marketing</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹1,080 <small>/ user / yr</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e6f4ea"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34a853" stroke-width="1.8" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+            <div><div class="ac-name">Felix AI Analytics Agent</div><div class="ac-by">by Quantum Metric</div></div>
+          </div>
+          <p class="ac-desc">Autonomously analyses digital experience data to surface actionable KPI and customer journey insights — without a data analyst in the loop.</p>
+          <div class="ac-tags"><span class="tag g">A2A</span><span class="tag b">Analytics</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹720 <small>/ user / yr</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fce8e6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea4335" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div>
+            <div><div class="ac-name">Workday HR Assistant</div><div class="ac-by">by Workday</div></div>
+          </div>
+          <p class="ac-desc">Answers HR, payroll, and benefits questions, processes employee requests, and surfaces insights from Workday data — all in natural language.</p>
+          <div class="ac-tags"><span class="tag g">A2A</span><span class="tag n">HR</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹1,440 <small>/ user / yr</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB: GEMS -->
+    <div id="tp-gems" class="tp">
+      <div class="filter-row">
+        <div class="chips">
+          <span class="chip on">All Gems</span>
+          <span class="chip">Communication</span>
+          <span class="chip">Operations</span>
+          <span class="chip">Finance</span>
+        </div>
+      </div>
+      <div class="cards">
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e8ecf5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a2540" stroke-width="1.8" stroke-linecap="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></div>
+            <div><div class="ac-name">The Meeting Scribe</div><div class="ac-by">Shivaami Gem</div></div>
+          </div>
+          <p class="ac-desc">Transforms Meet transcripts into structured action items, owner assignments, and decisions — formatted and distributed automatically post-call.</p>
+          <div class="ac-tags"><span class="tag n">Shivaami</span><span class="tag">Productivity</span><span class="tag g">Ready</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹599 <small>setup</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fef3e2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a2540" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg></div>
+            <div><div class="ac-name">The Proposal Writer</div><div class="ac-by">Shivaami Gem</div></div>
+          </div>
+          <p class="ac-desc">Input a client brief — get a polished, on-brand business proposal. Cuts proposal creation from hours to minutes with your company voice baked in.</p>
+          <div class="ac-tags"><span class="tag n">Shivaami</span><span class="tag o">Sales</span><span class="tag g">Ready</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹599 <small>setup</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e6f4ea"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a2540" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div><div class="ac-name">The HR Assistant</div><div class="ac-by">Shivaami Gem</div></div>
+          </div>
+          <p class="ac-desc">Answers policy questions, drafts JDs and offer letters, checks for bias, and handles onboarding comms — trained on your own HR documents.</p>
+          <div class="ac-tags"><span class="tag n">Shivaami</span><span class="tag">HR</span><span class="tag g">Ready</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹599 <small>setup</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e8f0fe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a2540" stroke-width="1.8" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+            <div><div class="ac-name">The Data Narrator</div><div class="ac-by">Shivaami Gem</div></div>
+          </div>
+          <p class="ac-desc">Connects to Sheets or BigQuery and writes executive-ready narrative summaries from raw data. No SQL, no analyst, no dashboard needed.</p>
+          <div class="ac-tags"><span class="tag n">Shivaami</span><span class="tag b">Analytics</span><span class="tag g">Ready</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹599 <small>setup</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fce8e6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a2540" stroke-width="1.8" stroke-linecap="round"><polyline points="22,12 16,12 14,15 10,15 8,12 2,12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 17.09 4H6.91a2 2 0 0 0-1.46.11z"/></svg></div>
+            <div><div class="ac-name">The Inbox Manager</div><div class="ac-by">Shivaami Gem</div></div>
+          </div>
+          <p class="ac-desc">Triages your Gmail by priority, drafts context-aware replies, and surfaces only what needs your attention — every morning, automatically.</p>
+          <div class="ac-tags"><span class="tag n">Shivaami</span><span class="tag">Email</span><span class="tag g">Ready</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹599 <small>setup</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e6f4ea"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a2540" stroke-width="1.8" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+            <div><div class="ac-name">The Onboarding Buddy</div><div class="ac-by">Shivaami Gem</div></div>
+          </div>
+          <p class="ac-desc">Guides new hires through company policies, tools, and culture. Answers FAQs and checks in at 30/60/90 days with personalised nudges.</p>
+          <div class="ac-tags"><span class="tag n">Shivaami</span><span class="tag">HR</span><span class="tag g">Ready</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹599 <small>setup</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fef3e2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a2540" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+            <div><div class="ac-name">The Compliance Checker</div><div class="ac-by">Shivaami Gem</div></div>
+          </div>
+          <p class="ac-desc">Reviews documents and contracts against your compliance framework — flags risks, suggests edits, and logs every check with a full audit trail.</p>
+          <div class="ac-tags"><span class="tag n">Shivaami</span><span class="tag o">Legal</span><span class="tag g">Ready</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹599 <small>setup</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB: PROMPT PACKS -->
+    <div id="tp-prompts" class="tp">
+      <div class="filter-row">
+        <div class="chips">
+          <span class="chip on">All Packs</span>
+          <span class="chip">Sales</span>
+          <span class="chip">Operations</span>
+          <span class="chip">People</span>
+          <span class="chip">Marketing</span>
+        </div>
+      </div>
+      <div class="cards">
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e8f0fe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="1.8" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><div class="ac-name">Email Efficiency Pack</div><div class="ac-by">50 curated prompts</div></div>
+          </div>
+          <p class="ac-desc">Client follow-ups, internal escalations, cold outreach, apology emails, meeting recaps, and status updates — all professionally crafted for Gemini.</p>
+          <div class="ac-tags"><span class="tag n">50 prompts</span><span class="tag">Communication</span><span class="tag g">Instant</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹399 <small>one-time</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fef3e2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="1.8" stroke-linecap="round"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></div>
+            <div><div class="ac-name">Sales Enablement Pack</div><div class="ac-by">60 curated prompts</div></div>
+          </div>
+          <p class="ac-desc">Proposal drafts, objection handling, competitive positioning, discovery prep, case study templates, and win/loss analysis frameworks.</p>
+          <div class="ac-tags"><span class="tag n">60 prompts</span><span class="tag o">Sales</span><span class="tag g">Instant</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹399 <small>one-time</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fce8e6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea4335" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div><div class="ac-name">Meeting Mastery Pack</div><div class="ac-by">40 curated prompts</div></div>
+          </div>
+          <p class="ac-desc">Pre-meeting briefs, agenda builders, action item parsers, follow-up templates, and stakeholder update formats for every meeting type.</p>
+          <div class="ac-tags"><span class="tag n">40 prompts</span><span class="tag">Productivity</span><span class="tag g">Instant</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹399 <small>one-time</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e6f4ea"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34a853" stroke-width="1.8" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+            <div><div class="ac-name">Data &amp; Reporting Pack</div><div class="ac-by">45 curated prompts</div></div>
+          </div>
+          <p class="ac-desc">Sheets formula building, data summary narratives, KPI commentary, board-ready insights, and executive dashboard storytelling frameworks.</p>
+          <div class="ac-tags"><span class="tag n">45 prompts</span><span class="tag b">Analytics</span><span class="tag g">Instant</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹399 <small>one-time</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#e8ecf5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="1.8" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div><div class="ac-name">HR &amp; People Pack</div><div class="ac-by">55 curated prompts</div></div>
+          </div>
+          <p class="ac-desc">Job descriptions, offer letters, performance review frameworks, onboarding checklists, pulse survey templates, and employee comms guides.</p>
+          <div class="ac-tags"><span class="tag n">55 prompts</span><span class="tag">People Ops</span><span class="tag g">Instant</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹399 <small>one-time</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fef3e2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="1.8" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <div><div class="ac-name">Marketing Content Pack</div><div class="ac-by">65 curated prompts</div></div>
+          </div>
+          <p class="ac-desc">Social captions, blog outlines, campaign briefs, ad copy variants, SEO meta descriptions, press release templates, and brand story frameworks.</p>
+          <div class="ac-tags"><span class="tag n">65 prompts</span><span class="tag o">Marketing</span><span class="tag g">Instant</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹399 <small>one-time</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-head">
+            <div class="ac-logo" style="background:#fce8e6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea4335" stroke-width="1.8" stroke-linecap="round"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><path d="M8 6l4-4 4 4"/><path d="M6 12l-3-6 3-6M18 12l3-6-3-6" opacity="0.4"/></svg></div>
+            <div><div class="ac-name">Legal &amp; Compliance Pack</div><div class="ac-by">35 curated prompts</div></div>
+          </div>
+          <p class="ac-desc">Contract review checklists, policy summaries, NDA redline prompts, DPDP/GDPR templates, and board resolution drafting guides.</p>
+          <div class="ac-tags"><span class="tag n">35 prompts</span><span class="tag o">Legal</span><span class="tag g">Instant</span></div>
+          <div class="ac-foot">
+            <div class="ac-price">₹399 <small>one-time</small></div>
+            <button class="add-btn" onclick="toggleAdd(this)">+ Add</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ PAGE 3 — CHAT ══════════ -->
+<div id="pg-chat" class="chat-pg">
+  <div class="chat-head">
+    <div class="g-orb"><div class="g-orb-in">✦</div></div>
+    <div class="chat-head-info">
+      <h3>Ask Gemini</h3>
+      <p>Shivaami's Gemini Enterprise assistant · Ask anything</p>
+    </div>
+    <div class="chat-live"><span class="live-dot"></span>Live demo</div>
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="msg ai">
+      <div class="m-av">G</div>
+      <div class="m-bub">Ask me anything about Gemini Enterprise — pricing, features, how it works with your existing tools, or how to get started in India. What would you like to know?</div>
+    </div>
+  </div>
+  <div class="suggestions" id="sugg-row">
+    <button class="sg" onclick="sendSugg(this)">What is Gemini Enterprise?</button>
+    <button class="sg" onclick="sendSugg(this)">How does pricing work?</button>
+    <button class="sg" onclick="sendSugg(this)">Does it work with Microsoft 365?</button>
+    <button class="sg" onclick="sendSugg(this)">What are Gems?</button>
+    <button class="sg" onclick="sendSugg(this)">How is this different from ChatGPT?</button>
+    <button class="sg" onclick="sendSugg(this)">What's included on day one?</button>
+  </div>
+  <div class="chat-in-area">
+    <textarea class="chat-in" id="c-input" placeholder="Ask anything about Gemini Enterprise..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+      oninput="autoGrow(this)"></textarea>
+    <button class="send-btn" id="send-btn" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<!-- CART BAR -->
+<div class="cart-bar" id="cart-bar">
+  <div class="cart-n" id="cart-n">0</div>
+  <span class="cart-txt">add-ons selected</span>
+  <button class="cart-cta" onclick="openModal()">Add to Quote →</button>
+</div>
+
+<!-- QUOTE MODAL -->
+<div class="overlay" id="overlay" onclick="overlayClick(event)">
+  <div class="modal" id="modal-box">
+    <div id="form-view">
+      <div class="modal-head">
+        <h3>Request a Quote</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <p class="modal-sub">Our team will prepare a tailored proposal within 1 business day.</p>
+      <div class="modal-seats-preview">
+        <div>
+          <div class="msp-label">Seats requested</div>
+          <div class="msp-val" id="modal-seats">30 seats</div>
+        </div>
+        <div style="text-align:right">
+          <div class="msp-label">Est. monthly</div>
+          <div class="msp-price" id="modal-price">$240 / mo</div>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="ff"><label>First name</label><input type="text" placeholder="Rahul"></div>
+        <div class="ff"><label>Last name</label><input type="text" placeholder="Sharma"></div>
+        <div class="ff full"><label>Work email</label><input type="email" placeholder="rahul@company.com"></div>
+        <div class="ff"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+        <div class="ff"><label>Phone</label><input type="tel" placeholder="+91 98765 43210"></div>
+        <div class="ff full"><label>Current suite</label>
+          <select><option value="">Select...</option><option>Google Workspace</option><option>Microsoft 365</option><option>Both</option><option>Other</option></select>
+        </div>
+        <div class="ff full"><label>Anything else?</label><textarea placeholder="Tell us about your timeline or use case..."></textarea></div>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">Send Quote Request →</button>
+      <p class="form-note">🔒 No spam · Shivaami contacts you directly</p>
+    </div>
+    <div id="success-view" style="display:none">
+      <div class="success-view">
+        <div class="s-ico">✅</div>
+        <h3>Quote request sent!</h3>
+        <p>Your Shivaami account manager will be in touch within 1 business day with a custom proposal.</p>
+        <br>
+        <button class="submit-btn" onclick="closeModal()" style="max-width:200px;margin:0 auto">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── AGENT TABS ──
+function switchAgent(id, btn) {
+  document.querySelectorAll('.at-pill').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.at-panel').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('at-' + id).classList.add('on');
+}
+
+// ── PAGE ROUTING ──
+function goPage(id, btn) {
+  document.querySelectorAll('.pg,.chat-pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.n-tab').forEach(b => b.classList.remove('on'));
+  const pg = document.getElementById('pg-' + id);
+  if (pg) pg.classList.add('on');
+  if (btn) btn.classList.add('on');
+  else {
+    const tabs = {'home':0,'market':1,'chat':2};
+    document.querySelectorAll('.n-tab')[tabs[id]]?.classList.add('on');
+  }
+}
+
+// ── SEAT CALC ──
+function calcSeats(el) {
+  const s = +el.value;
+  const pct = ((s - 5) / (500 - 5)) * 100;
+  el.style.setProperty('--p', pct + '%');
+  document.getElementById('seat-disp').textContent = s;
+  const mo = s * 8;
+  const yr = mo * 12;
+  document.getElementById('est-val').textContent = '$' + mo.toLocaleString() + ' / mo';
+  document.getElementById('est-yr').textContent = '$' + yr.toLocaleString();
+  document.getElementById('modal-seats').textContent = s + ' seats';
+  document.getElementById('modal-price').textContent = '$' + mo.toLocaleString() + ' / mo';
+}
+calcSeats(document.getElementById('s-slider'));
+
+// ── MARKETPLACE TABS ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.tb').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.tp').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('tp-' + id).classList.add('on');
+}
+
+// ── ADD TO CART ──
+let cartCount = 0;
+function toggleAdd(btn) {
+  if (btn.classList.contains('on')) {
+    btn.classList.remove('on'); btn.textContent = '+ Add'; cartCount--;
+  } else {
+    btn.classList.add('on'); btn.textContent = '✓ Added'; cartCount++;
+  }
+  document.getElementById('cart-n').textContent = cartCount;
+  document.getElementById('cart-bar').classList.toggle('on', cartCount > 0);
+}
+
+// ── MODAL ──
+function openModal() {
+  document.getElementById('form-view').style.display = 'block';
+  document.getElementById('success-view').style.display = 'none';
+  document.getElementById('overlay').classList.add('on');
+}
+function closeModal() { document.getElementById('overlay').classList.remove('on'); }
+function overlayClick(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
+function submitForm() {
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('success-view').style.display = 'block';
+}
+
+// ── CHAT ──
+const replies = {
+  "what is gemini enterprise": "<strong>Gemini Enterprise</strong> is Google's advanced agentic AI platform, launched in October 2025. It's not just a chatbot — it's a complete AI operating system for your organisation.<br><br>It has four core layers:<ul><li><strong>The Brains</strong> — Gemini 3, Google's most advanced models</li><li><strong>The Workbench</strong> — no-code agent builder for any employee</li><li><strong>The Taskforce</strong> — pre-built Google agents: Deep Research, NotebookLM, Data Insights</li><li><strong>The Marketplace</strong> — 1,000+ validated partner agents</li></ul>Deployed by Shivaami, you get localised onboarding, INR billing, and dedicated support across India.",
+  "pricing": "<strong>Shivaami's India pricing: $8 per user per month</strong>, billed annually in INR. 18% GST applies.<br><br>Key details:<ul><li>Minimum 5 seats to start</li><li>Volume discounts from 25+ seats</li><li>All core Google agents included (no hidden fees)</li><li>Shivaami Gems and Prompt Packs are optional add-ons</li></ul>Use the seat slider on the Overview page to estimate your cost instantly.",
+  "microsoft 365": "Yes — Gemini Enterprise is built to work in <strong>Microsoft 365 environments</strong>, not just Google Workspace.<br><br>This includes:<ul><li>Connects to SharePoint, OneDrive, and Teams data</li><li>Agents can read and write to M365 apps</li><li>No need to migrate your existing tools</li><li>Works alongside Copilot if you already have it</li></ul>This is actually one of Gemini Enterprise's big differentiators — it's open-platform by design.",
+  "what are gems": "<strong>Gems</strong> are custom Gemini agents pre-configured with specific instructions, tone, and context — like a specialist AI colleague for each business function.<br><br>Shivaami offers ready-to-deploy Gems including:<ul><li>🤖 <strong>Meeting Scribe</strong> — auto-formats transcripts into action items</li><li>📄 <strong>Proposal Writer</strong> — generates client proposals from a brief</li><li>🧑‍💼 <strong>HR Assistant</strong> — answers policy questions, drafts JDs</li><li>📊 <strong>Data Narrator</strong> — turns Sheets/BigQuery into executive summaries</li></ul>Each Gem is set up by Shivaami and trained on your company documents.",
+  "chatgpt": "Great question. The key differences vs ChatGPT Enterprise:<br><br><ul><li><strong>Data connectivity</strong> — Gemini Enterprise connects to Google Workspace, M365, Salesforce, SAP natively. ChatGPT requires custom connectors.</li><li><strong>Agent ecosystem</strong> — 1,000+ validated partner agents in the Google Marketplace vs limited plugin ecosystem</li><li><strong>Google-native</strong> — if your team uses Gmail, Docs, Meet, Drive — Gemini is deeply embedded, not bolted on</li><li><strong>Governance</strong> — centralised agent registry and audit logs built-in from day one</li><li><strong>India pricing</strong> — Shivaami offers competitive local pricing vs USD-only ChatGPT billing</li></ul>",
+  "day one": "On day one with Gemini Enterprise, your team gets:<br><br><ul><li>✅ <strong>Deep Research Agent</strong> — multi-source research reports in minutes</li><li>✅ <strong>NotebookLM Enterprise</strong> — AI grounded in your company documents</li><li>✅ <strong>Data Insights Agent</strong> — natural language queries on BigQuery</li><li>✅ <strong>Idea Generation Agent</strong> — tournament-style AI brainstorming</li><li>✅ <strong>Gemini Code Assist</strong> — AI coding across your stack</li><li>✅ <strong>Gemini in Gmail, Docs, Sheets, Meet, Slides</strong></li><li>✅ <strong>No-code Agent Builder</strong> — build custom agents without engineers</li></ul>Plus Shivaami onboarding, training, and ongoing support included."
+};
+
+function matchReply(q) {
+  const l = q.toLowerCase();
+  if (l.includes('what is') || l.includes('gemini enterprise')) return replies['what is gemini enterprise'];
+  if (l.includes('pric') || l.includes('cost') || l.includes('much')) return replies['pricing'];
+  if (l.includes('microsoft') || l.includes('365') || l.includes('m365')) return replies['microsoft 365'];
+  if (l.includes('gem')) return replies['what are gems'];
+  if (l.includes('chatgpt') || l.includes('openai') || l.includes('different')) return replies['chatgpt'];
+  if (l.includes('day one') || l.includes('included') || l.includes('include')) return replies['day one'];
+  return "That's a great question. Gemini Enterprise covers a lot of ground — from AI agents and deep research to enterprise governance and no-code automation. For specifics, I'd recommend speaking with Shivaami's team who can walk you through a personalised demo. Want me to help you set that up?";
+}
+
+function addMsg(html, who) {
+  const body = document.getElementById('chat-body');
+  const div = document.createElement('div');
+  div.className = 'msg ' + who;
+  div.innerHTML = `<div class="m-av">${who === 'ai' ? 'G' : 'You'}</div><div class="m-bub">${html}</div>`;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function showTyping() {
+  const body = document.getElementById('chat-body');
+  const t = document.createElement('div');
+  t.className = 'msg ai'; t.id = 'typing-indicator';
+  t.innerHTML = `<div class="m-av">G</div><div class="typing"><span></span><span></span><span></span></div>`;
+  body.appendChild(t); body.scrollTop = body.scrollHeight;
+  return t;
+}
+
+function sendChat() {
+  const inp = document.getElementById('c-input');
+  const q = inp.value.trim();
+  if (!q) return;
+  inp.value = ''; inp.style.height = '';
+  document.getElementById('sugg-row').style.display = 'none';
+  document.getElementById('send-btn').disabled = true;
+  addMsg(q, 'me');
+  const t = showTyping();
+  setTimeout(() => {
+    t.remove();
+    addMsg(matchReply(q), 'ai');
+    document.getElementById('send-btn').disabled = false;
+  }, 900 + Math.random() * 600);
+}
+
+function sendSugg(btn) {
+  document.getElementById('c-input').value = btn.textContent;
+  sendChat();
+}
+
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+</script>
+</body>
+</html>
